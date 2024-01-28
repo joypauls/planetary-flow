@@ -10,6 +10,9 @@ python = "^3.11"
 opencv-python = "^4.9.0.80"
 numpy = "^1.26.3"
 
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+ipykernel = "^6.29.0"
 
 [build-system]
 requires = ["poetry-core"]
