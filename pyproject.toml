@@ -5,10 +5,14 @@ description = ""
 authors = ["joypauls <joypaulsen3@gmail.com>"]
 readme = "README.md"
 
+[tool.poetry.scripts]
+pf = "planetaryflow.cli:cli"
+
 [tool.poetry.dependencies]
 python = "^3.11"
 opencv-python = "^4.9.0.80"
 numpy = "^1.26.3"
+click = "^8.1.7"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.0"

@@ -3,7 +3,7 @@ from enum import Enum
 
 
 # colors for opencv visuals
-class Colors(Enum):
+class ColorsCV(Enum):
     RED = (0, 0, 255)
     GREEN = (0, 200, 0)
     BLUE = (255, 0, 0)
