@@ -5,7 +5,7 @@ Just some TODO items to stay sane
 ## POC Subtasks
 
 Algorithms
-- [ ] object detection / thresholding
+- [ ] object segmentation / thresholding
 - [ ] global quality estimator
 - [ ] reference frame selection / generation
 - [ ] better alignment to reference frame
