@@ -6,21 +6,23 @@ Just some TODO items to stay sane
 
 Algorithms
 - [ ] object segmentation / thresholding
-- [ ] global quality estimator
-- [ ] reference frame selection / generation
-- [ ] better alignment to reference frame
-- [ ] image averaging
+- [ ] basic global quality estimator
 
 Software
 - [ ] basic CLI task runner
-- [ ] sparse unit tests
+- [ ] basic unit tests (~25% coverage?)
 
 ## Prototype Subtasks
 
 Algorithms
+- [ ] reference frame selection / generation
+- [ ] better alignment to reference frame
+- [ ] image averaging
 - [ ] generate grid of patches
 - [ ] local quality estimator
 - [ ] channel alignment
 
 
 ## MVP Subtasks
+
+TBD
