@@ -2,19 +2,22 @@
 
 Just some TODO items to stay sane
 
-## POC Subtasks
+## POC Features
+
+A basic demonstration to evaluate how realistic the project is. Proving out that this app will be doable with fairly common tools (numpy, opencv) with acceptable results. No polish.
 
 Algorithms
 - [ ] object segmentation / thresholding
+- [ ] frame stabilization
 - [ ] basic global quality estimator
 
-Software
+Tooling
 - [ ] basic CLI task runner
-- [ ] basic unit tests (~25% coverage?)
+- [ ] basic unit tests (~20% coverage?)
+
 
 ## Prototype Subtasks
 
-Algorithms
 - [ ] reference frame selection / generation
 - [ ] better alignment to reference frame
 - [ ] image averaging
@@ -26,3 +29,5 @@ Algorithms
 ## MVP Subtasks
 
 TBD
+
+- [ ] channel alignment

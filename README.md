@@ -6,6 +6,10 @@ WIP
 - Status: prototype development
 - For more details, see `feature_tracking.md`
 
+## Compatibility
+
+As of now, testing only performed on MacOS (Ventura).
+
 ## Dev
 
 > Not fully documented yet, see `Makefile` for commands to get started!

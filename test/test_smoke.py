@@ -1,4 +1,5 @@
 """Smoke tests mainly for development"""
+
 # import numpy as np
 import pytest
 import cv2
