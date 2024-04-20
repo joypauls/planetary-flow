@@ -1,8 +1,6 @@
 import numpy as np
 import cv2
 
-SHRINK_FACTOR = 0.75
-
 
 class Segment:
     """
@@ -10,16 +8,22 @@ class Segment:
     Produces a binary mask of the foreground to represent the object.
     """
 
+    SHRINK_FACTOR = 0.75
+
     def __init__(
         self,
         image: np.ndarray,
         threshold: int = None,
     ):
+        # convert to grayscale
         # TODO force uint8?
+        # TODO configurable denoising
         self.gray = cv2.GaussianBlur(cv2.cvtColor(image, cv2.COLOR_BGR2GRAY), (5, 5), 0)
         if self.gray.dtype != np.uint8:
             raise TypeError("Not uint8, something's up")
 
+        self.threshold = threshold
+        self.mask = None
         self.manual(threshold) if threshold else self._fit()
 
     def _fit(self):
@@ -27,7 +31,7 @@ class Segment:
             self.gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU
         )
         # this is to account for bias in data leading to aggressive threshold
-        self.threshold = np.clip(int(self.threshold * SHRINK_FACTOR), 0, 255)
+        self.threshold = np.clip(int(self.threshold * Segment.SHRINK_FACTOR), 0, 255)
 
     def manual(self, threshold: int):
         """Manually override threshold"""

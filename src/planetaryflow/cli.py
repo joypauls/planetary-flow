@@ -8,7 +8,7 @@ HELP_TEXT = "Planetary Flow v0.1.0"
 @click.group(help=HELP_TEXT)
 def cli() -> None:
     """Container object for the app"""
-    click.echo("beep boop")
+    click.echo("<CLI Root> beep boop")
 
 
 @cli.command()
@@ -17,9 +17,9 @@ def cli() -> None:
     default=None,
     help="Directory with files to process - can also be a single video file.",
 )
-def process(dir):
+def process(d):
     """Main processing pipeline"""
-    click.echo(f"Directory {dir}!")
+    click.echo(f"Directory {d}!")
 
 
 # INTROSPECTION OPTIONS
@@ -31,12 +31,14 @@ def process(dir):
     default=None,
     help="",
 )
-def segment(file):
+def segment(f):
     """Main processing pipeline"""
-    click.echo(f"Directory {dir}!")
-    img = cv2.imread(file)
+    click.echo(f"File {f}!")
+    img = cv2.imread(f)
     s = Segment(img)
-    cv2.imshow("Mean Image", mean_image.astype("uint8"))
+    cv2.imshow("Segmentation", s.mask.astype("uint8"))
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
 
 if __name__ == "__main__":
