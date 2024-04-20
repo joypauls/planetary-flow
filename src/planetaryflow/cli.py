@@ -1,8 +1,14 @@
 import click
 import cv2
 from .segment import Segment
+from .player import Player
 
 HELP_TEXT = "Planetary Flow v0.1.0"
+
+
+##########################
+# Primary User Interface #
+##########################
 
 
 @click.group(help=HELP_TEXT)
@@ -13,16 +19,31 @@ def cli() -> None:
 
 @cli.command()
 @click.option(
-    "-d",
+    "-f",
     default=None,
-    help="Directory with files to process - can also be a single video file.",
+    help="",
 )
-def process(d):
-    """Main processing pipeline"""
-    click.echo(f"Directory {d}!")
+def play(f):
+    """Play a video file"""
+    click.echo(f"File {f}!")
+    p = Player(file=f)
+    p.play()
 
 
-# INTROSPECTION OPTIONS
+# @cli.command()
+# @click.option(
+#     "-d",
+#     default=None,
+#     help="Directory with files to process - can also be a single video file.",
+# )
+# def process(d):
+#     """Main processing pipeline"""
+#     click.echo(f"Directory {d}!")
+
+
+####################################
+# Introspection and Advanced Usage #
+####################################
 
 
 @cli.command()
@@ -41,5 +62,5 @@ def segment(f):
     cv2.destroyAllWindows()
 
 
-if __name__ == "__main__":
-    cli()
+# if __name__ == "__main__":
+#     cli()

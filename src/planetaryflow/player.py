@@ -6,6 +6,7 @@ Can be run standalone, or imported
 TODO:
 - add
 """
+
 import cv2
 import numpy as np
 from typing import Optional, Callable
@@ -15,14 +16,13 @@ from .constants import DEFAULT_FPS, CODECS
 class Player:
     """
     Plays a video file filtered by a function, optionally saves result
-
-    Filtering should NOT change dimensions of the frame (but might still play)
+    Filtering should NOT change dimensions of the frame (but might still play if it does)
     """
 
     def __init__(
         self,
         file: Optional[str] = None,
-        dir: Optional[str] = None,
+        # dir: Optional[str] = None,
         filter: Optional[Callable] = None,
         filter_debug: Optional[Callable] = None,
         n: float = np.inf,
@@ -32,7 +32,7 @@ class Player:
             raise Exception("No file selected or passed in as an arg")
         # from args
         self.file = file
-        self.dir = dir
+        # self.dir = dir
         self.n = n
         self.filter = filter
         self.debugging = True if filter_debug else False
