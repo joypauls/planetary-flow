@@ -8,6 +8,9 @@ CODECS = {
     "mp4": cv2.VideoWriter_fourcc(*"mp4v"),
 }
 
+SUPPPORTED_IMAGE_FILE_TYPES = [".jpg", ".jpeg", ".png"]
+SUPPPORTED_VIDEO_FILE_TYPES = [".mp4"]
+
 
 # colors for opencv visuals
 class ColorsCV(Enum):

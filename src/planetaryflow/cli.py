@@ -2,6 +2,7 @@ import click
 import cv2
 from .segment import Segment
 from .player import Player
+from .utils import is_supported_image, is_supported_video
 
 HELP_TEXT = "Planetary Flow v0.1.0"
 
@@ -53,13 +54,30 @@ def play(f):
     help="",
 )
 def segment(f):
-    """Main processing pipeline"""
-    click.echo(f"File {f}!")
-    img = cv2.imread(f)
-    s = Segment(img)
-    cv2.imshow("Segmentation", s.mask.astype("uint8"))
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    """Examine object segmentation algorithm"""
+    click.echo(f"Processing file: {f}")
+
+    def build_segmentation_visual(img: cv2.UMat) -> cv2.UMat:
+        s = Segment(img)
+        # create a mask w/ green=object and red=background
+        color_mask = cv2.cvtColor(s.mask, cv2.COLOR_GRAY2BGR)
+        color_mask[:, :, 0][s.mask == 255] = 0
+        color_mask[:, :, 2][s.mask == 255] = 0
+        color_mask[:, :, 2][s.mask < 255] = 255
+        # blend mask and original
+        alpha = 0.2
+        return cv2.addWeighted(img, 1 - alpha, color_mask, alpha, 0)
+
+    if is_supported_image(f):
+        img = cv2.imread(f)
+        cv2.imshow("Segmentation", build_segmentation_visual(img))
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+    elif is_supported_video(f):
+        p = Player(file=f, filter=build_segmentation_visual)
+        p.play()
+    else:
+        raise ValueError("Unsupported file type")
 
 
 # if __name__ == "__main__":
