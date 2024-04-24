@@ -2,9 +2,9 @@
 
 # planetary-flow
 
-WIP
-- Status: prototype development
-- For more details, see `feature_tracking.md`
+**This is a prototype.**
+
+For more details on status, see `feature_tracking.md`
 
 ## Compatibility
 

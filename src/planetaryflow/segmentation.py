@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 
 
-class Segment:
+class Segmentation:
     """
     Segment img using a global threshold. Defaults to a modified Otsu's method.
     Produces a binary mask of the foreground to represent the object.
@@ -32,7 +32,9 @@ class Segment:
             self.gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU
         )
         # this is to account for bias in data leading to aggressive threshold
-        self.threshold = np.clip(int(self.threshold * Segment.SHRINK_FACTOR), 0, 255)
+        self.threshold = np.clip(
+            int(self.threshold * Segmentation.SHRINK_FACTOR), 0, 255
+        )
         # create binary mask
         self.mask = self.gray.copy()
         self.mask[self.mask > self.threshold] = 255

@@ -1,6 +1,7 @@
 import click
 import cv2
-from .segment import Segment
+from .segmentation import Segmentation
+from .stabilization import stabilize_frame
 from .player import Player
 from .utils import is_supported_image, is_supported_video
 
@@ -58,7 +59,7 @@ def segment(f):
     click.echo(f"Processing file: {f}")
 
     def build_segmentation_visual(img: cv2.UMat) -> cv2.UMat:
-        s = Segment(img)
+        s = Segmentation(img)
         # create a mask w/ green=object and red=background
         color_mask = cv2.cvtColor(s.mask, cv2.COLOR_GRAY2BGR)
         color_mask[:, :, 0][s.mask == 255] = 0
@@ -80,5 +81,14 @@ def segment(f):
         raise ValueError("Unsupported file type")
 
 
-# if __name__ == "__main__":
-#     cli()
+@cli.command()
+@click.option(
+    "-f",
+    default=None,
+    help="",
+)
+def stabilize(f):
+    img = cv2.imread(f)
+    cv2.imshow("Segmentation", stabilize_frame(img))
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
