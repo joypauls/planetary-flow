@@ -2,29 +2,26 @@
 
 Just some TODO items to stay sane
 
-## POC Features
+## POC Features (⭐)
 
-A basic demonstration to evaluate how realistic the project is. Proving out that this app will be doable with fairly common tools (numpy, opencv) with acceptable results. No polish.
+A basic demonstration to evaluate how realistic the project concept is. Proving out that this app will be doable with fairly common tools (numpy, opencv) with acceptable results. No polish. All visualization will be done with opencv's built in viz 
+tools, no custom GUI yet.
 
 Algorithms
-- [ ] object segmentation / thresholding
-- [ ] frame stabilization
+- [x] basic object segmentation / thresholding
+- [x] global frame stabilization
 - [ ] basic global quality estimator
+- [ ] configurable output size
+- [ ] basic info display on screen 
 
 Tooling
-- [ ] basic CLI task runner
+- [x] basic CLI as a task runner
 - [ ] basic unit tests (~20% coverage?)
 
 
 ## Prototype Subtasks
 
-- [ ] reference frame selection / generation
-- [ ] better alignment to reference frame
-- [ ] image averaging
-- [ ] generate grid of patches
-- [ ] local quality estimator
-- [ ] channel alignment
-
+TBD
 
 ## MVP Subtasks
 
