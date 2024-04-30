@@ -75,6 +75,22 @@ class Player:
                 # show main window
                 # conditionally apply filter for raw frame
                 frame = self.filter(raw_frame) if self.filter else raw_frame
+
+                # font = cv2.FONT_HERSHEY_SIMPLEX
+                # text = "Frame Metrics\n{}x{}".format(
+                #     self.capture_metadata["height"], self.capture_metadata["width"]
+                # )
+                # org = (
+                #     10,
+                #     20,
+                # )  # Coordinates of the bottom-left corner of the text string in the image
+                # fontScale = 0.5
+                # color = (0, 255, 0)  # Blue color in BGR
+                # thickness = 1
+                # cv2.putText(
+                #     frame, text, org, font, fontScale, color, thickness, cv2.LINE_AA
+                # )
+
                 cv2.imshow(title, frame)
                 self.output.write(frame) if self.output else None
 

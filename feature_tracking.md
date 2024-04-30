@@ -8,6 +8,7 @@ A basic demonstration to evaluate how realistic the project concept is. Proving 
 tools, no custom GUI yet.
 
 Algorithms
+- [x] basic video player and image viewing
 - [x] basic object segmentation / thresholding
 - [x] global frame stabilization
 - [ ] basic global quality estimator
