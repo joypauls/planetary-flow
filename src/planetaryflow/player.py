@@ -4,7 +4,7 @@ video player for my AVI's on a mac
 Can be run standalone, or imported
 
 TODO:
-- add
+- support more than mp4
 """
 
 import cv2
@@ -35,7 +35,6 @@ class Player:
         # self.dir = dir
         self.n = n
         self.filter = filter
-        self.debugging = True if filter_debug else False
         self.filter_debug = filter_debug if filter_debug else None
 
         # main video
@@ -45,6 +44,7 @@ class Player:
 
     def _get_capture_metadata(self, capture: cv2.VideoCapture):
         return {
+            "frames": int(capture.get(cv2.CAP_PROP_FRAME_COUNT)),
             "fps": capture.get(5),
             "width": capture.get(cv2.CAP_PROP_FRAME_WIDTH),
             "height": capture.get(cv2.CAP_PROP_FRAME_HEIGHT),
@@ -94,21 +94,29 @@ class Player:
                 cv2.imshow(title, frame)
                 self.output.write(frame) if self.output else None
 
-                # show debug window conditionally
-                if self.debugging:
-                    frame_debug = self.filter_debug(raw_frame)
-                    self._imshow_named(frame_debug, "Debug", x=int(frame.shape[1]))
-                    # self.output_debug.write(frame) if self.output_debug else None
-
                 # handle user actions
                 key = cv2.waitKey(20)
+                # key = cv2.waitKey(0) & 0xFF
                 if key == ord("q"):
+                    # q or esc -> quit
                     break
-                if key == ord("p"):
-                    cv2.waitKey(-1)  # wait until any key is pressed
+                elif key == ord("p"):
+                    # p or spacebar -> pause
+                    cv2.waitKey(-1)
+                elif key == ord("d"):
+                    count += 1
+                    # if count >= total_frames:
+                    #     count = total_frames - 1
+                    # cv2.waitKey(-1)
+                elif key == ord("a"):
+                    count -= 1
+                    if count < 0:
+                        count = 0
+                    # cv2.waitKey(-1)
+                else:
+                    count += 1
             else:
                 break
-            count += 1
         self.close()
 
     def close(self):

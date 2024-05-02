@@ -135,9 +135,9 @@ def quality(f):
         color_mask[:, :, 2][s.mask == 255] = 0
         color_mask[:, :, 2][s.mask < 255] = 255
         # blend mask and original
-        alpha = 0.15
-        return cv2.addWeighted(img, 1 - alpha, color_mask, alpha, 0)
-        # return img
+        # alpha = 0.15
+        # return cv2.addWeighted(img, 1 - alpha, color_mask, alpha, 0)
+        return img
 
     if is_supported_image(f):
         img = cv2.imread(f)

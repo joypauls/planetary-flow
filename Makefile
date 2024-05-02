@@ -18,3 +18,5 @@ test-segmentation:
 test-stabilization:
 	pf stabilize -f ./test/data/videos/jupiter.mp4
 
+test-quality:
+	pf quality -f ./test/data/videos/jupiter.mp4
