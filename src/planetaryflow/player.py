@@ -27,10 +27,9 @@ class Player:
         filter_debug: Optional[Callable] = None,
         n: float = np.inf,
     ):
-        # check
         if not file:
             raise Exception("No file selected or passed in as an arg")
-        # from args
+        # fields from args
         self.file = file
         # self.dir = dir
         self.n = n
@@ -42,6 +41,9 @@ class Player:
         self.capture_metadata = self._get_capture_metadata(self.capture)
         self.output = None
 
+        # state
+        self.paused = False
+
     def _get_capture_metadata(self, capture: cv2.VideoCapture):
         return {
             "frames": int(capture.get(cv2.CAP_PROP_FRAME_COUNT)),
@@ -50,11 +52,11 @@ class Player:
             "height": capture.get(cv2.CAP_PROP_FRAME_HEIGHT),
         }
 
-    def _imshow_named(self, img: np.ndarray, name: str, x: int = 0, y: int = 0):
-        # create a window and move
-        cv2.namedWindow(name)
-        cv2.moveWindow(name, x, y)
-        cv2.imshow(name, img)
+    # def _imshow_named(self, img: np.ndarray, name: str, x: int = 0, y: int = 0):
+    #     # create a window and move
+    #     cv2.namedWindow(name)
+    #     cv2.moveWindow(name, x, y)
+    #     cv2.imshow(name, img)
 
     def play(self, save_file: Optional[str] = None):
         """actual render loop"""
@@ -67,56 +69,61 @@ class Player:
                 self.fps if self.fps else DEFAULT_FPS,
                 (self.width, self.height),
             )
+
+        # debugging
+        print(self.capture_metadata)
+
         title = f"Playing {self.file}" if self.file else "player.py"
         count = 0
         while self.capture.isOpened() and count < self.n:
-            is_good, raw_frame = self.capture.read()
-            if is_good:
-                # show main window
-                # conditionally apply filter for raw frame
-                frame = self.filter(raw_frame) if self.filter else raw_frame
 
-                # font = cv2.FONT_HERSHEY_SIMPLEX
-                # text = "Frame Metrics\n{}x{}".format(
-                #     self.capture_metadata["height"], self.capture_metadata["width"]
-                # )
-                # org = (
-                #     10,
-                #     20,
-                # )  # Coordinates of the bottom-left corner of the text string in the image
-                # fontScale = 0.5
-                # color = (0, 255, 0)  # Blue color in BGR
-                # thickness = 1
-                # cv2.putText(
-                #     frame, text, org, font, fontScale, color, thickness, cv2.LINE_AA
-                # )
+            if not self.paused:
+                is_good, raw_frame = self.capture.read()
+                if is_good:
+                    # show main window
+                    # conditionally apply filter for raw frame
+                    frame = self.filter(raw_frame) if self.filter else raw_frame
 
-                cv2.imshow(title, frame)
-                self.output.write(frame) if self.output else None
+                    cv2.imshow(title, frame)
+                    self.output.write(frame) if self.output else None
 
-                # handle user actions
-                key = cv2.waitKey(20)
-                # key = cv2.waitKey(0) & 0xFF
-                if key == ord("q"):
-                    # q or esc -> quit
-                    break
-                elif key == ord("p"):
-                    # p or spacebar -> pause
-                    cv2.waitKey(-1)
-                elif key == ord("d"):
+                    count += 1
+                # else:
+                #     break
+
+            # handle user actions
+            key = cv2.waitKey(100) & 0xFF
+            # key = cv2.waitKey(0) & 0xFF
+            if key == ord("q"):
+                # q or esc -> quit
+                break
+            elif key == ord("p"):
+                # p or spacebar -> pause
+                self.paused = not self.paused
+            elif self.paused:
+                if key == ord("d"):
                     count += 1
                     # if count >= total_frames:
                     #     count = total_frames - 1
-                    # cv2.waitKey(-1)
+                    self.capture.set(cv2.CAP_PROP_POS_FRAMES, count)
+                    is_good, raw_frame = self.capture.read()
+                    if is_good:
+                        cv2.imshow(
+                            title,
+                            self.filter(raw_frame) if self.filter else raw_frame,
+                        )
                 elif key == ord("a"):
                     count -= 1
                     if count < 0:
                         count = 0
-                    # cv2.waitKey(-1)
-                else:
-                    count += 1
-            else:
-                break
+                    self.capture.set(cv2.CAP_PROP_POS_FRAMES, count)
+                    is_good, raw_frame = self.capture.read()
+                    if is_good:
+                        cv2.imshow(
+                            title,
+                            self.filter(raw_frame) if self.filter else raw_frame,
+                        )
+
         self.close()
 
     def close(self):

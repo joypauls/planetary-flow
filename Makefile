@@ -20,3 +20,8 @@ test-stabilization:
 
 test-quality:
 	pf quality -f ./test/data/videos/jupiter.mp4
+
+# dev purposes only
+
+puppet:
+	pf puppet -f ./test/data/videos/jupiter.mp4
