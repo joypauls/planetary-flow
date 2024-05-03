@@ -187,6 +187,7 @@ def puppet(f):
         cv2.destroyAllWindows()
     elif is_supported_video(f):
         p = Player(file=f, filter=build_visual)
+        p.write("./output/jupiter_seeing_illustration.mp4", 10, 100)
         p.play()
     else:
         raise ValueError("Unsupported file type")

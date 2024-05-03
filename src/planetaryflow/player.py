@@ -22,19 +22,17 @@ class Player:
     def __init__(
         self,
         file: Optional[str] = None,
-        # dir: Optional[str] = None,
         filter: Optional[Callable] = None,
-        filter_debug: Optional[Callable] = None,
         n: float = np.inf,
     ):
+        # handle bad calls
         if not file:
             raise Exception("No file selected or passed in as an arg")
+
         # fields from args
         self.file = file
-        # self.dir = dir
-        self.n = n
+        # self.n = n
         self.filter = filter
-        self.filter_debug = filter_debug if filter_debug else None
 
         # main video
         self.capture = cv2.VideoCapture(file)
@@ -47,9 +45,9 @@ class Player:
     def _get_capture_metadata(self, capture: cv2.VideoCapture):
         return {
             "frames": int(capture.get(cv2.CAP_PROP_FRAME_COUNT)),
-            "fps": capture.get(5),
-            "width": capture.get(cv2.CAP_PROP_FRAME_WIDTH),
-            "height": capture.get(cv2.CAP_PROP_FRAME_HEIGHT),
+            "fps": int(capture.get(5)),
+            "width": int(capture.get(cv2.CAP_PROP_FRAME_WIDTH)),
+            "height": int(capture.get(cv2.CAP_PROP_FRAME_HEIGHT)),
         }
 
     # def _imshow_named(self, img: np.ndarray, name: str, x: int = 0, y: int = 0):
@@ -58,41 +56,48 @@ class Player:
     #     cv2.moveWindow(name, x, y)
     #     cv2.imshow(name, img)
 
-    def play(self, save_file: Optional[str] = None):
-        """actual render loop"""
-        if not self.file:
-            raise Exception("No file selected or passed in as an arg")
-        if save_file:
-            self.output = cv2.VideoWriter(
-                save_file,
-                CODECS["mp4"],
-                self.fps if self.fps else DEFAULT_FPS,
-                (self.width, self.height),
-            )
+    def write(self, output_file: str, fps: int, n: Optional[int] = np.inf):
+        """process frames and write to output file"""
+        print((self.capture_metadata["width"], self.capture_metadata["height"]))
+        out = cv2.VideoWriter(
+            output_file,
+            CODECS["mp4"],
+            fps if fps else DEFAULT_FPS,
+            (self.capture_metadata["width"], self.capture_metadata["height"]),
+        )
+        count = 0
+        while self.capture.isOpened() and count < n:
+            is_good, raw_frame = self.capture.read()
+            if is_good:
+                # conditionally apply filter for raw frame
+                out.write(self.filter(raw_frame) if self.filter else raw_frame)
+                count += 1
+            else:
+                break
 
+    def play(self, save_file: Optional[str] = None):
+        """render loop"""
         # debugging
         print(self.capture_metadata)
 
         title = f"Playing {self.file}" if self.file else "player.py"
         count = 0
-        while self.capture.isOpened() and count < self.n:
+        while self.capture.isOpened():
 
             if not self.paused:
                 is_good, raw_frame = self.capture.read()
                 if is_good:
                     # show main window
                     # conditionally apply filter for raw frame
-                    frame = self.filter(raw_frame) if self.filter else raw_frame
-
-                    cv2.imshow(title, frame)
-                    self.output.write(frame) if self.output else None
-
+                    cv2.imshow(
+                        title, self.filter(raw_frame) if self.filter else raw_frame
+                    )
                     count += 1
-                # else:
-                #     break
+                else:
+                    break
 
             # handle user actions
-            key = cv2.waitKey(100) & 0xFF
+            key = cv2.waitKey(33) & 0xFF
             # key = cv2.waitKey(0) & 0xFF
             if key == ord("q"):
                 # q or esc -> quit

@@ -29,6 +29,7 @@ tools, no custom GUI yet.
 TBD
 
 - [ ] file format support enhancement (formats TBD)
+- [ ] support for directories of frames
 - [ ] streamlined processing pipeline(s)
 
 ## MVP Features

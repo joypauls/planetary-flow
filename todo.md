@@ -7,9 +7,9 @@ Just for development task tracking :)
 ### Player
 
 - [x] frame by frame navigation
-- [ ] fix bug where frame count gets out of whack\
+- [ ] fix bug where frame count gets out of whack
 - [ ] key to save frame
-- [ ] better way of saving output
+- [ ] better way of saving output, write() class method
 
 
 ## MVP
