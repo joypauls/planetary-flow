@@ -9,7 +9,7 @@ TODO:
 
 import cv2
 import numpy as np
-from typing import Optional, Callable
+from typing import Optional, Callable, Tuple
 from .constants import DEFAULT_FPS, CODECS
 
 
@@ -56,14 +56,21 @@ class Player:
     #     cv2.moveWindow(name, x, y)
     #     cv2.imshow(name, img)
 
-    def write(self, output_file: str, fps: int, n: Optional[int] = np.inf):
+    def write(
+        self,
+        output_file: str,
+        fps: int,
+        n: int = np.inf,
+        output_size: Optional[Tuple[int, int]] = None,
+    ):
         """process frames and write to output file"""
-        print((self.capture_metadata["width"], self.capture_metadata["height"]))
+        output_size = (
+            output_size
+            if output_size
+            else (self.capture_metadata["width"], self.capture_metadata["height"])
+        )
         out = cv2.VideoWriter(
-            output_file,
-            CODECS["mp4"],
-            fps if fps else DEFAULT_FPS,
-            (self.capture_metadata["width"], self.capture_metadata["height"]),
+            output_file, CODECS["mp4"], fps if fps else DEFAULT_FPS, output_size
         )
         count = 0
         while self.capture.isOpened() and count < n:
