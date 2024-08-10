@@ -1,6 +1,5 @@
 import os
 import cv2
-import numpy as np
 from planetaryflow.io import get_capture_metadata
 
 # starting point here is a globally aligned video
