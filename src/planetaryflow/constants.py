@@ -4,7 +4,7 @@ from enum import Enum
 
 DEFAULT_FPS = 30
 CODECS = {
-    "avi": cv2.VideoWriter_fourcc("M", "J", "P", "G"),
+    # "avi": cv2.VideoWriter_fourcc("M", "J", "P", "G"),
     "mp4": cv2.VideoWriter_fourcc(*"mp4v"),
 }
 

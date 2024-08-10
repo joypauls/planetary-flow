@@ -167,13 +167,16 @@ def puppet(f):
     click.echo(f"Processing file: {f}")
 
     def build_visual(img: cv2.UMat) -> cv2.UMat:
+        # can we eliminate the double Segmention() call? or do we always need to resegment?
         img = global_translation(img, Segmentation(img))
-        s = Segmentation(img)
-        # create a mask w/ green=object and red=background
-        color_mask = cv2.cvtColor(s.mask, cv2.COLOR_GRAY2BGR)
-        color_mask[:, :, 0][s.mask == 255] = 0
-        color_mask[:, :, 2][s.mask == 255] = 0
-        color_mask[:, :, 2][s.mask < 255] = 255
+
+        # # create a mask w/ green=object and red=background
+        # s = Segmentation(img)
+        # color_mask = cv2.cvtColor(s.mask, cv2.COLOR_GRAY2BGR)
+        # color_mask[:, :, 0][s.mask == 255] = 0
+        # color_mask[:, :, 2][s.mask == 255] = 0
+        # color_mask[:, :, 2][s.mask < 255] = 255
+
         # blend mask and original
         # alpha = 0.15
         # return cv2.addWeighted(img, 1 - alpha, color_mask, alpha, 0)
@@ -187,7 +190,8 @@ def puppet(f):
         cv2.destroyAllWindows()
     elif is_supported_video(f):
         p = Player(file=f, filter=build_visual)
-        p.write("./output/jupiter_seeing_illustration.mp4", 10, 100, (500, 500))
-        # p.play()
+        # p.write("./output/jupiter_globally_aligned.mp4", 20, 200, (500, 500))
+        # p.write("./output/jupiter_seeing_illustration.mp4", 10, 100, (500, 500))
+        p.play()
     else:
         raise ValueError("Unsupported file type")

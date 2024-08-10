@@ -1,8 +1,10 @@
 output
 
-
 .DS_Store
 *.DS_Store
+
+*.dtmp
+*.bkp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

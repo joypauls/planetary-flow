@@ -3,25 +3,25 @@
 # import numpy as np
 import pytest
 import cv2
-from planetaryflow.segment import Segment
+from planetaryflow.segmentation import Segmentation
 
-jupiter1 = cv2.imread("./test/data/images/jupiter_stacked.png")
-jupiter2 = cv2.imread("./test/data/images/jupiter_frame_lowq.png")
-moon = cv2.imread("./test/data/images/moon_stacked_sharpened.jpg")
+jupiter1 = cv2.imread("./tests/data/images/jupiter_stacked.png")
+jupiter2 = cv2.imread("./tests/data/images/jupiter_frame_lowq.png")
+moon = cv2.imread("./tests/data/images/moon_stacked_sharpened.jpg")
 test_images = [jupiter1, jupiter2, moon]
 
 
 @pytest.mark.parametrize("img", test_images)
-def test_segment(img):
+def test_segmentation(img):
     """Segment class smoke tests"""
 
     # auto threshold
-    s = Segment(img)
+    s = Segmentation(img)
     assert s.threshold > 0 & s.threshold < 255
     assert s.object_size() > 50
 
     # manual threshold
-    s = Segment(img, threshold=100)
+    s = Segmentation(img, threshold=100)
     assert s.threshold == 100
     s.manual(-1)
     assert s.threshold == 0
@@ -29,7 +29,7 @@ def test_segment(img):
     assert s.threshold == 255
 
     # centroid sanity check
-    s = Segment(img)
+    s = Segmentation(img)
     c = s.object_centroid()
     assert c[0] > 0 & c[0] < img.shape[1]
     assert c[1] > 0 & c[1] < img.shape[0]

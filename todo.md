@@ -10,6 +10,9 @@ Just for development task tracking :)
 - [ ] fix bug where frame count gets out of whack
 - [ ] key to save frame
 - [ ] better way of saving output, write() class method
+- [ ] format change, mp4  -> avi
+bug where program doesnt halt at end
+support ffvi codec format
 
 
 ## MVP

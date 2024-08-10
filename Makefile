@@ -10,18 +10,25 @@ build:
 test:
 	poetry run pytest	-v
 
+
 # visual integration tests
 
 test-segmentation:
-	pf segment -f ./test/data/videos/jupiter.mp4
+	pf segment -f ./tests/data/videos/jupiter.mp4
 
 test-stabilization:
-	pf stabilize -f ./test/data/videos/jupiter.mp4
+	pf stabilize -f ./tests/data/videos/jupiter.mp4
 
 test-quality:
-	pf quality -f ./test/data/videos/jupiter.mp4
+	pf quality -f ./tests/data/videos/jupiter.mp4
+
 
 # dev purposes only
 
+# puppet cli task
 puppet:
-	pf puppet -f ./test/data/videos/jupiter.mp4
+	poetry run pf puppet -f ./tests/data/videos/jupiter.mp4
+
+# running a script currently in development
+script:
+	poetry run python ./scripts/build_reference_frame.py

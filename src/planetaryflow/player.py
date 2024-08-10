@@ -1,5 +1,5 @@
 """
-Render a video file with opencvsince there is no built-in
+Render a video file with opencv since there is no built-in
 video player for my AVI's on a mac
 Can be run standalone, or imported
 
@@ -11,6 +11,7 @@ import cv2
 import numpy as np
 from typing import Optional, Callable, Tuple
 from .constants import DEFAULT_FPS, CODECS
+from .io import get_capture_metadata
 
 
 class Player:
@@ -36,19 +37,11 @@ class Player:
 
         # main video
         self.capture = cv2.VideoCapture(file)
-        self.capture_metadata = self._get_capture_metadata(self.capture)
+        self.capture_metadata = get_capture_metadata(self.capture)
         self.output = None
 
         # state
         self.paused = False
-
-    def _get_capture_metadata(self, capture: cv2.VideoCapture):
-        return {
-            "frames": int(capture.get(cv2.CAP_PROP_FRAME_COUNT)),
-            "fps": int(capture.get(5)),
-            "width": int(capture.get(cv2.CAP_PROP_FRAME_WIDTH)),
-            "height": int(capture.get(cv2.CAP_PROP_FRAME_HEIGHT)),
-        }
 
     # def _imshow_named(self, img: np.ndarray, name: str, x: int = 0, y: int = 0):
     #     # create a window and move

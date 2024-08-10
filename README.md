@@ -20,7 +20,9 @@ This project uses `poetry` to manage dependencies, environments, and as a simple
 
 ### Dev Dependencies in Poetry
 
-poetry add ipykernel --group dev
+`poetry add ipykernel --group dev`
 
 ## Contributing and Feedback
+
+Please use the [Issues tab](https://github.com/joypauls/planetary-flow/issues), thank you!
 
