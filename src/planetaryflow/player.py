@@ -55,6 +55,7 @@ class Player:
         fps: int,
         n: int = np.inf,
         output_size: Optional[Tuple[int, int]] = None,
+        format: str = "mp4",
     ):
         """process frames and write to output file"""
         output_size = (
@@ -63,7 +64,7 @@ class Player:
             else (self.capture_metadata["width"], self.capture_metadata["height"])
         )
         out = cv2.VideoWriter(
-            output_file, CODECS["mp4"], fps if fps else DEFAULT_FPS, output_size
+            output_file, CODECS[format], fps if fps else DEFAULT_FPS, output_size
         )
         count = 0
         while self.capture.isOpened() and count < n:
@@ -128,6 +129,8 @@ class Player:
                             title,
                             self.filter(raw_frame) if self.filter else raw_frame,
                         )
+                elif key == ord("o"):
+                    cv2.imwrite(f"./frame_{count}.png", raw_frame)
 
         self.close()
 

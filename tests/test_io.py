@@ -1,4 +1,3 @@
-import pytest
 import cv2
 from planetaryflow.io import get_capture_metadata
 
