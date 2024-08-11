@@ -1,3 +1,5 @@
+"""This is largely a dev utility for now, but it will be the primary entry point for the app."""
+
 import click
 import cv2
 from .segmentation import Segmentation
