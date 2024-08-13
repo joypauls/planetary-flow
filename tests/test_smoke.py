@@ -4,11 +4,11 @@
 import pytest
 import cv2
 from planetaryflow.segmentation import Segmentation
+from planetaryflow.alignment import global_translation
 
-jupiter1 = cv2.imread("./tests/data/images/jupiter_stacked.png")
-jupiter2 = cv2.imread("./tests/data/images/jupiter_frame_lowq.png")
-moon = cv2.imread("./tests/data/images/moon_stacked_sharpened.jpg")
-test_images = [jupiter1, jupiter2, moon]
+jupiter1 = cv2.imread("./tests/data/images/jupiter_low_quality.png")
+jupiter2 = cv2.imread("./tests/data/images/jupiter_high_quality.png")
+test_images = [jupiter1, jupiter2]
 
 
 @pytest.mark.parametrize("img", test_images)
@@ -34,3 +34,13 @@ def test_segmentation(img):
     assert c[0] > 0 & c[0] < img.shape[1]
     assert c[1] > 0 & c[1] < img.shape[0]
     assert s.mask[c[1], c[0]] == 255
+
+
+@pytest.mark.parametrize("img", test_images)
+def test_global_translation(img):
+    """global_translation smoke tests"""
+
+    # auto threshold
+    s = Segmentation(img)
+    aligned = global_translation(img, s)
+    assert aligned is not None

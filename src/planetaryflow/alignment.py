@@ -5,7 +5,7 @@ from .segmentation import Segmentation
 
 
 def global_translation(img: cv2.UMat, s: Segmentation) -> cv2.UMat:
-    """Global translation"""
+    """Global coarse alignment via translation based on the object centroid"""
     m = cv2.moments(s.mask)
     centroid = (int(m["m10"] / m["m00"]), int(m["m01"] / m["m00"]))
     height, width, _ = img.shape
