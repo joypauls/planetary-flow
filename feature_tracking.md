@@ -21,7 +21,7 @@ tools, no custom GUI yet.
 ## POC Phase 2 Features
 
 **Algorithms/Features**
-- [ ] crop/rotate/flip
+- [ ] general crop / rotate / flip
 - [ ] basic global quality estimation
 - [ ] basic info display on screen 
 

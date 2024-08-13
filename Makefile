@@ -27,7 +27,7 @@ test-quality:
 
 # puppet cli task
 puppet:
-	poetry run pf puppet -f ./output/jupiter.avi
+	poetry run pf puppet -f ./output/jupiter.avi -width 500
 
 # running a script currently in development
 script:

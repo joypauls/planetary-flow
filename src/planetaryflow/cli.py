@@ -159,30 +159,24 @@ def quality(f):
 
 
 @cli.command()
-@click.option(
-    "-f",
-    default=None,
-    help="",
-)
-def puppet(f):
+@click.option("-f", default=None, help="", required=True, type=str)
+@click.option("-width", default=None, help="", required=True, type=int)
+def puppet(f, width):
     """Puppet pipeline"""
     click.echo(f"Processing file: {f}")
 
+    # temp check
+    click.echo(f"-width: {width}")
+
     def build_visual(img: cv2.UMat) -> cv2.UMat:
-        # can we eliminate the double Segmention() call? or do we always need to resegment?
         img = global_translation(img, Segmentation(img))
+        # img = cv2.flip(cv2.rotate(img[150:650, 250:750], cv2.ROTATE_90_CLOCKWISE), 1)
 
-        # # create a mask w/ green=object and red=background
-        # s = Segmentation(img)
-        # color_mask = cv2.cvtColor(s.mask, cv2.COLOR_GRAY2BGR)
-        # color_mask[:, :, 0][s.mask == 255] = 0
-        # color_mask[:, :, 2][s.mask == 255] = 0
-        # color_mask[:, :, 2][s.mask < 255] = 255
-
-        # blend mask and original
-        # alpha = 0.15
-        # return cv2.addWeighted(img, 1 - alpha, color_mask, alpha, 0)
-        img = cv2.flip(cv2.rotate(img[150:650, 250:750], cv2.ROTATE_90_CLOCKWISE), 1)
+        # centered crop
+        shape = img.shape
+        x = shape[1] / 2 - width / 2
+        y = shape[0] / 2 - width / 2
+        img = img[int(y) : int(y + width), int(x) : int(x + width)]
         return img
 
     if is_supported_image(f):
